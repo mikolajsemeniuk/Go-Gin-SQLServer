@@ -1,5 +1,5 @@
 package application
 
 func Listen() {
-	router.Run()
+	router.Run(":3000")
 }

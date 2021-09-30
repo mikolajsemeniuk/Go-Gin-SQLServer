@@ -1,5 +1,7 @@
 package application
 
+import "go-gin-sqlserver/program/controllers"
+
 func Route() {
-	router.GET("/")
+	router.GET("/", controllers.AddUser)
 }
