@@ -9,7 +9,6 @@ import (
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
-// Replace with your own connection parameters
 var server = "localhost"
 var port = 1433
 var user = "sa"
@@ -20,19 +19,14 @@ var Client *sql.DB
 func init() {
 	var error error
 
-	// Create connection string
 	connectionString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d",
 		server, user, password, port)
 
-	// Create connection pool
 	Client, error = sql.Open("sqlserver", connectionString)
 	if error != nil {
 		log.Fatal("Error creating connection pool: " + error.Error())
 	}
 	log.Printf("Connected!\n")
-
-	// Close the database connection pool after program executes
-	defer Client.Close()
 
 	// SelectVersion()
 }
