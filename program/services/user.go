@@ -45,6 +45,10 @@ func GetUsers() ([]payloads.User, error) {
 		return users, error
 	}
 
+	if len(users) == 0 {
+		users = []payloads.User{}
+	}
+
 	return users, nil
 }
 
