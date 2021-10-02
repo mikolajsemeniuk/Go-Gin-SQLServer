@@ -20,13 +20,11 @@ const (
 )
 
 func GetUsers() ([]payloads.User, error) {
-	var users []payloads.User
-
 	context, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
+	var users []payloads.User
 	rows, error := database.Client.QueryContext(context, GET_USERS_QUERY)
-
 	if error != nil {
 		return users, error
 	}
@@ -38,6 +36,16 @@ func GetUsers() ([]payloads.User, error) {
 			return users, error
 		}
 
+		posts, error := GetPosts(user.UserId)
+		if error != nil {
+			return users, error
+		}
+
+		if len(posts) == 0 {
+			posts = []payloads.Post{}
+		}
+
+		user.Posts = posts
 		users = append(users, user)
 	}
 
@@ -80,11 +88,10 @@ func AddUser(input inputs.User) error {
 }
 
 func GetUser(userId int64) (payloads.User, error) {
-	var user payloads.User
-
 	context, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
+	var user payloads.User
 	if error := database.Client.
 		QueryRowContext(context, GET_USER_QUERY, sql.Named("UserId", userId)).
 		Scan(&user.UserId, &user.Username); error != nil {
@@ -94,6 +101,17 @@ func GetUser(userId int64) (payloads.User, error) {
 			return payloads.User{}, error
 		}
 	}
+
+	posts, error := GetPosts(user.UserId)
+	if error != nil {
+		return user, error
+	}
+
+	if len(posts) == 0 {
+		posts = []payloads.Post{}
+	}
+
+	user.Posts = posts
 
 	return user, nil
 }
