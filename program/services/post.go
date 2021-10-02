@@ -35,6 +35,17 @@ func GetPosts(userId int64) ([]payloads.Post, error) {
 		if error := rows.Scan(&post.PostId, &post.Title); error != nil {
 			return posts, error
 		}
+
+		likes, error := GetPostLikes(post.PostId)
+		if error != nil {
+			return posts, error
+		}
+
+		if len(likes) == 0 {
+			likes = []payloads.PostLike{}
+		}
+
+		post.Likes = likes
 		posts = append(posts, post)
 	}
 

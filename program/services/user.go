@@ -131,7 +131,27 @@ func GetUser(userId int64) (payloads.User, error) {
 		posts = []payloads.Post{}
 	}
 
+	followers, error := GetUserLikes(user.UserId, GET_FOLLOWERS_QUERY)
+	if error != nil {
+		return user, error
+	}
+
+	if len(followers) == 0 {
+		followers = []payloads.UserLike{}
+	}
+
+	following, error := GetUserLikes(user.UserId, GET_FOLLOWING_QUERY)
+	if error != nil {
+		return user, error
+	}
+
+	if len(followers) == 0 {
+		followers = []payloads.UserLike{}
+	}
+
 	user.Posts = posts
+	user.Followers = followers
+	user.Following = following
 
 	return user, nil
 }
