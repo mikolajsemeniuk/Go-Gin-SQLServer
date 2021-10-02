@@ -19,10 +19,10 @@ create table posts (
 )
 
 create table user_likes (
-    followed_id int not null,
+    following_id int not null,
     follower_id int not null,
-    constraint user_like_id primary key (followed_id, follower_id),
-    constraint fk_followed foreign key (followed_id) references users (user_id),
+    constraint user_like_id primary key (following_id, follower_id),
+    constraint fk_followed foreign key (following_id) references users (user_id),
     constraint fk_follower foreign key (follower_id) references users (user_id)
 )
 
@@ -43,7 +43,7 @@ as
 begin
  set nocount on;
  delete from [post_likes] where user_id in (select user_id from deleted)
- delete from [user_likes] where (followed_id in (select user_id from deleted)) or (follower_id in (select user_id from deleted))
+ delete from [user_likes] where (following_id in (select user_id from deleted)) or (follower_id in (select user_id from deleted))
  delete from [posts] where user_id in (select user_id from deleted)
  delete from users where user_id in (select user_id from deleted)
 end
@@ -64,7 +64,7 @@ go
 
 insert into users (username) values ('john doe'), ('mike mock'), ('lucy applegate'), ('sam taylor');
 insert into posts (title, user_id) values ('lorem', 1), ('ipsum', 1), ('dolor', 2), ('sit', 2), ('amet', 3);
-insert into user_likes (followed_id, follower_id) values (1, 3), (1, 2), (2, 4), (3, 1), (3, 2), (3, 4);
+insert into user_likes (following_id, follower_id) values (1, 3), (1, 2), (2, 4), (3, 1), (3, 2), (3, 4);
 insert into post_likes (user_id, post_id) values (1, 3), (1, 4), (1, 5), (2, 2), (2, 5), (4, 5), (4, 4);
 
 --4, 5, 6, 7

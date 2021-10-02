@@ -36,7 +36,7 @@ func AddUser(context *gin.Context) {
 func GetUser(context *gin.Context) {
 	userId, error := strconv.ParseInt(context.Param("userid"), 10, 64)
 	if error != nil {
-		context.JSON(http.StatusBadRequest, "cannot convert id to int64")
+		context.JSON(http.StatusBadRequest, "cannot convert userid to int64")
 		return
 	}
 
@@ -50,9 +50,9 @@ func GetUser(context *gin.Context) {
 }
 
 func UpdateUser(context *gin.Context) {
-	id, error := strconv.ParseInt(context.Param("userid"), 10, 64)
+	userid, error := strconv.ParseInt(context.Param("userid"), 10, 64)
 	if error != nil {
-		context.JSON(http.StatusBadRequest, "cannot convert id to int64")
+		context.JSON(http.StatusBadRequest, "cannot convert userid to int64")
 		return
 	}
 
@@ -62,7 +62,7 @@ func UpdateUser(context *gin.Context) {
 		return
 	}
 
-	if error := services.UpdateUser(id, input); error != nil {
+	if error := services.UpdateUser(userid, input); error != nil {
 		context.JSON(http.StatusBadRequest, error.Error())
 		return
 	}
@@ -71,13 +71,13 @@ func UpdateUser(context *gin.Context) {
 }
 
 func RemoveUser(context *gin.Context) {
-	id, error := strconv.ParseInt(context.Param("userid"), 10, 64)
+	userid, error := strconv.ParseInt(context.Param("userid"), 10, 64)
 	if error != nil {
-		context.JSON(http.StatusBadRequest, "cannot convert id to int64")
+		context.JSON(http.StatusBadRequest, "cannot convert userid to int64")
 		return
 	}
 
-	if error := services.RemoveUser(id); error != nil {
+	if error := services.RemoveUser(userid); error != nil {
 		context.JSON(http.StatusBadRequest, error.Error())
 		return
 	}

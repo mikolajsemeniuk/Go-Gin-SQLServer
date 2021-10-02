@@ -14,4 +14,7 @@ func Route() {
 	router.POST("/post/:userid", controllers.AddPost)
 	router.PATCH("/post/:postid", controllers.UpdatePost)
 	router.DELETE("/post/:postid", controllers.RemovePost)
+
+	// userlike
+	router.PATCH("/userlike/:followingid/:followerid", controllers.SetUserLike)
 }

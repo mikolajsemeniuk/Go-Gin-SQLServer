@@ -32,7 +32,7 @@ func AddPost(context *gin.Context) {
 }
 
 func UpdatePost(context *gin.Context) {
-	id, error := strconv.ParseInt(context.Param("postid"), 10, 64)
+	postId, error := strconv.ParseInt(context.Param("postid"), 10, 64)
 	if error != nil {
 		context.JSON(http.StatusBadRequest, "cannot convert postid to int64")
 		return
@@ -44,7 +44,7 @@ func UpdatePost(context *gin.Context) {
 		return
 	}
 
-	if error := services.UpdatePost(id, input); error != nil {
+	if error := services.UpdatePost(postId, input); error != nil {
 		context.JSON(http.StatusBadRequest, error.Error())
 		return
 	}
@@ -53,13 +53,13 @@ func UpdatePost(context *gin.Context) {
 }
 
 func RemovePost(context *gin.Context) {
-	id, error := strconv.ParseInt(context.Param("postid"), 10, 64)
+	postId, error := strconv.ParseInt(context.Param("postid"), 10, 64)
 	if error != nil {
 		context.JSON(http.StatusBadRequest, "cannot convert postid to int64")
 		return
 	}
 
-	if error := services.RemovePost(id); error != nil {
+	if error := services.RemovePost(postId); error != nil {
 		context.JSON(http.StatusBadRequest, error.Error())
 		return
 	}

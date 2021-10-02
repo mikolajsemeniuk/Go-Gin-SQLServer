@@ -1,6 +1,6 @@
 package models
 
 type UserLike struct {
-	FollowerId int64
-	FollowedId int64
+	FollowingId int64
+	FollowerId  int64
 }
